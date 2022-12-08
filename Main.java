@@ -62,9 +62,9 @@ public class Main {
      */
     private static void launchExam() {
         out.print("┃ Введите количество парт в аудитории: ");
+
         int numberOfDesk = checkInt();
-
-
+        new ExamTakingStudents(numberOfDesk).start();
     }
 
 
@@ -84,13 +84,18 @@ public class Main {
             userChoice = checkInt();
 
             switch (userChoice) {
-                case 1 -> launchExam();
+                case 1 -> {
+                    launchExam();
+                    userChoice = 2;
+                }
+
                 // Выход
                 case 2 -> out.print("""
                         ┏━━━━━━━━━━━━━━━━━━━━━━━━━┓
                         ┃ Завершение программы... ┃
                         ┗━━━━━━━━━━━━━━━━━━━━━━━━━┛
                         """);
+
                 default -> out.println("""
                         ┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓
                         ┃  Такого пункта нет в меню.  ┃
