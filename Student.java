@@ -51,14 +51,14 @@ public class Student extends Thread {
         boolean examIsPassed = false;
 
         try {
-            Thread.sleep(num * 1000L);
+            Thread.sleep(randomInt(1, num + 1) * 1000L);
         } catch (InterruptedException ignored) {
         }
-
+        out.printf("┃ Студент №%d сидит за партой и повторяет.\n", num + 1);
         // Пока студент не сдал экзамен
         while (!examIsPassed) {
 
-            out.printf("┃ Студент №%d сидит за партой и повторяет.\n", num + 1);
+
 
             if (examinerTableIsFree.get()) {
 
@@ -76,25 +76,31 @@ public class Student extends Thread {
                             out.printf("┃ Экзаменатор поставил оценку %d студенту №%d. Студент выходит из аудитории.\n",
                                     randomInt(3, 5), num + 1);
                             examIsPassed = true;
+
+                            examinerTableIsFree.set(true);
                         }
 
                         case 2 -> {
                             out.printf("┃ Экзаменатор выгоняет студента №%d из аудитории.\n", num + 1);
                             examIsPassed = true;
+
+                            examinerTableIsFree.set(true);
                         }
 
                         case 3 -> {
                             out.printf("┃ Экзаменатор отправляет студента №%d подумать за парту.\n", num + 1);
 
+                            out.printf("┃ Студент №%d сидит за партой и повторяет.\n", num + 1);
+
+                            examinerTableIsFree.set(true);
+
                             try {
-                                Thread.sleep(num * 3000L);
+                                Thread.sleep(randomInt(1, num + 1) * 3000L);
                             } catch (InterruptedException ignored) {
                             }
 
                         }
                     }
-
-                    examinerTableIsFree.set(true);
 
                 } catch (InterruptedException ignored) {
                 }
