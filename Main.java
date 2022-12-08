@@ -64,7 +64,12 @@ public class Main {
         out.print("┃ Введите количество парт в аудитории: ");
 
         int numberOfDesk = checkInt();
-        new ExamTakingStudents(numberOfDesk).start();
+
+        try {
+            new ExamTakingStudents().start(numberOfDesk);
+        } catch (InterruptedException ignored) {
+        }
+
     }
 
 
