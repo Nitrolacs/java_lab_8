@@ -27,7 +27,6 @@ public class ExamTakingStudents {
     ExamTakingStudents() {
     }
 
-
     /**
      * Создаёт необходимые потоки.
      *
@@ -75,7 +74,5 @@ public class ExamTakingStudents {
             students = creatingThreads(numberOfDesk);
 
         }
-
-
     }
 }

@@ -89,6 +89,8 @@ public class Main {
             userChoice = checkInt();
 
             switch (userChoice) {
+
+                // Запуск экзамена
                 case 1 -> {
                     launchExam();
                     userChoice = 2;
