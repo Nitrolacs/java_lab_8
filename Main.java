@@ -2,6 +2,10 @@ import java.io.PrintStream;
 import java.nio.charset.StandardCharsets;
 import java.util.*;
 
+
+/**
+ * Основной класс программы, служит для её запуска
+ */
 public class Main {
 
     /**
@@ -10,57 +14,56 @@ public class Main {
     private final static PrintStream out = new PrintStream(System.out, true, StandardCharsets.UTF_8);
 
     /**
-     * Считывание данных из консоли
+     * Выводит меню программы.
      */
-    private static final Scanner scanner = new Scanner(System.in);
-
-    /**
-     * Функция выводит меню программы.
-     */
-    public static void printMenu() {
+    private static void printMenu() {
 
         out.println("""
-                ┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓
-                ┃                 Меню программы                 ┃
-                ┣━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┫
-                ┃ 1. Добавление профессии по умолчанию           ┃
-                ┃ 2. Выход                                       ┃
-                ┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛""");
+                ┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓
+                ┃       Меню программы       ┃
+                ┣━━━━━━━━━━━━━━━━━━━━━━━━━━━━┫
+                ┃ 1. Запустить экзамен       ┃
+                ┃ 2. Выход                   ┃
+                ┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛""");
     }
 
     /**
-     * Функция для вывода предупреждения.
+     * Проверяет, что ввод - целое число.
      *
-     * @param choice Выбор сообщения.
+     * @return userInt Целое число.
      */
-    public static void printError(int choice) {
-        if (choice == 1) {
-            out.println("""
-                    ┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓
-                    ┃      Профессии ещё не добавлены       ┃
-                    ┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛""");
-        }
+    public static int checkInt() {
+        Scanner scanner = new Scanner(System.in);
+        String userInput = scanner.nextLine();
+        int userInt = 0;
+        boolean correctInput = false;
 
-        if (choice == 2) {
-            out.println("""
-                    ┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓
-                    ┃  Неверный номер профессии.  ┃
-                    ┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛""");
-        }
+        do {
+            try {
+                userInt = Integer.parseInt(userInput);
+                if (userInt <= 0) {
+                    out.print("┃ Число должно быть больше нуля. Введите число: ");
+                    userInput = scanner.nextLine();
+                } else {
+                    correctInput = true;
+                }
 
-        if (choice == 3) {
-            out.println("""
-                    ┏━━━━━━━━━━━━━━━━━━━━━━━━━━┓
-                    ┃  Новое значение задано.  ┃
-                    ┗━━━━━━━━━━━━━━━━━━━━━━━━━━┛""");
-        }
+            } catch (NumberFormatException ex) {
+                out.print("┃ Неверный ввод. Введите число: ");
+                userInput = scanner.nextLine();
+            }
+        } while (!correctInput);
+        return userInt;
+    }
 
-        if (choice == 4) {
-            out.println("""
-                    ┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓
-                    ┃  Такого пункта нет в меню.  ┃
-                    ┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛""");
-        }
+
+    /**
+     * Запуск экзамена.
+     */
+    private static void launchExam() {
+        out.print("┃ Введите количество парт в аудитории: ");
+        int numberOfDesk = checkInt();
+
 
     }
 
@@ -73,24 +76,27 @@ public class Main {
      *             основной функции.
      */
     public static void main(String[] args) {
-        String userChoice;
+        int userChoice;
 
         do {
             printMenu();
             out.print("┃ Введите номер пункта: ");
-            userChoice = scanner.nextLine();
+            userChoice = checkInt();
 
             switch (userChoice) {
-                case "1" -> System.out.println("In development");
+                case 1 -> launchExam();
                 // Выход
-                case "2" -> out.println("""
+                case 2 -> out.print("""
                         ┏━━━━━━━━━━━━━━━━━━━━━━━━━┓
                         ┃ Завершение программы... ┃
                         ┗━━━━━━━━━━━━━━━━━━━━━━━━━┛
                         """);
-                default -> printError(4);
+                default -> out.println("""
+                        ┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓
+                        ┃  Такого пункта нет в меню.  ┃
+                        ┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛""");
             }
 
-        } while (!userChoice.equals("2"));
+        } while (userChoice != 2);
     }
 }
